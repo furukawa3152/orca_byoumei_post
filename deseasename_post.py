@@ -1,4 +1,5 @@
 import json
+import time
 from datetime import date, datetime
 from html import escape
 from pathlib import Path
@@ -133,7 +134,7 @@ def read_diseases_from_excel(excel_path=EXCEL_PATH):
         }
 
 
-def post_diseases_from_excel(excel_path=EXCEL_PATH):
+def post_diseases_from_excel(excel_path=EXCEL_PATH, interval_seconds=0.3):
     results = []
     for disease in read_diseases_from_excel(excel_path):
         month = disease["start_date"][:7]
@@ -147,6 +148,7 @@ def post_diseases_from_excel(excel_path=EXCEL_PATH):
         )
         print(f"posted row {disease['row_number']}: {disease['ptid']} {disease['disease_name']}")
         results.append({"disease": disease, "result": result})
+        time.sleep(interval_seconds)
     return results
 
 
